@@ -1,5 +1,5 @@
 class Snake:
-    def __init__(self, x, y, direction=0, length=3):
+    def __init__(self, x, y, direction=0, length=4):
         self.x = x
         self.y = y
         self.direction = direction  # 0: up, 1: right, 2:down, 3: left

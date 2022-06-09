@@ -3,7 +3,7 @@ import time
 import pygame
 
 from train.snake_gym import SnakeGym
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C
 
 
 def main():
@@ -18,19 +18,15 @@ def main():
     else:
         model = PPO.load("snake", snake_gym)
     if train:
-        model.learn(total_timesteps=600000)
-        model.save("snake")
+        while True:
+            model.learn(total_timesteps=100000)
+            model.save("snake")
     obs = snake_gym.reset()
     last_time = time.time()
     while not pygame.key.get_pressed()[pygame.K_ESCAPE]:
         if time.time() - last_time > 0.2:
             action, _states = model.predict(obs)
             obs, rewards, done, info = snake_gym.step(action)
-            for line in obs:
-                for point in line:
-                    print(point[0], end="")
-                print()
-            print()
             last_time = time.time()
         snake_gym.render()
 

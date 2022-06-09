@@ -16,12 +16,18 @@ class Board:
             pygame.display.set_caption('Snake - DeepLearning')
             pygame.display.flip()
             self.font = pygame.font.Font(pygame.font.get_default_font(), 32)
+            programIcon = pygame.image.load("res/snake.png")
+            pygame.display.set_icon(programIcon)
         self.width_tiles = width
         self.height_tiles = height
         self.scale = scale
         self.snake = Snake(width // 2, height // 2)
         self.human = human
         self.speed = speed
+
+        self.default_score = 4
+
+        self.high_score = 0
 
         self.turn = 0  # 0: forward, 1: left, 2: right
 
@@ -100,7 +106,10 @@ class Board:
         self._draw_rect(self.apple_color, self.apple)
 
     def draw_score(self):
-        text = self.font.render(str(self.snake.length), False, (0, 255, 0))
+        score = self.snake.length - self.default_score
+        if score > self.high_score:
+            self.high_score = score
+        text = self.font.render(f"Score: {score}, High: {self.high_score}", False, (0, 255, 0))
         self.screen.blit(text, (0, 0))
 
     def _draw_rect(self, color, pos):
